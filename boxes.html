@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	  <script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+
+	  <style type="text/css">
+	  	rect#button {
+	  		rx: 2px; /*rounded corners*/	  			  	
+	  		ry: 2px;
+	  		stroke: black;
+	  		stroke-width: 1;
+	  		opacity: 0.5;
+	  		fill: url(#button-gradient);
+	  		filter: url(#drop-shadow);
+	  	}
+		text {
+			fill: black;			
+			fill-opacity: 0.9;
+			font-family: "Helvetica Neue", arial, sans-serif;
+			font-size: 14px;
+			text-anchor:middle;
+			pointer-events: none;
+		}
+
+		rect:hover{
+			opacity: 0.9;
+		}
+
+		g.button { 
+			cursor: pointer; 
+		}
+
+	  </style>
+
+</head>
+	<body>
+		<svg>				
+		<defs>
+		<!-- help from: http://www.w3.org/wiki/SVG_Primer-->
+			<linearGradient id="button-gradient" x1="0" x2="0" y1="0" y2="1">
+				<stop offset="0%" stop-color="rgb(171,199,219)"/>
+				<stop offset="100%" stop-color="rgb(117,166,200)"/>
+			</linearGradient>
+			<filter id="drop-shadow" width="140%" height="140%">
+        		<feOffset result="offset" in="SourceAlpha" dx="0" dy="1"/>
+        		<feGaussianBlur result="blurred-offset" in="offset" stdDeviation="1"/>
+        		<feBlend in="SourceGraphic" in2="blurred-offset" mode="normal"/>
+			</filter>
+		</defs>
+		</svg>
+		<script type="text/javascript">
+
+		/*Nested selection example: http://stackoverflow.com/questions/11350553/nested-svg-node-creation-in-d3-js*/
+		var data = ['NH','VT','MA','RI','CT','DC','DE'];
+
+		var rect_dim = 30;
+		var barPadding = 1;
+		
+		var w = (rect_dim) * 2 + 10;
+		var h = Math.ceil(data.length / 2) * rect_dim + 10;
+		
+
+
+		var svg = d3.select("svg")					
+					.attr("width", w)
+					.attr("height", h);
+					//.attr("style", "outline: thin solid red;");
+		
+		var g = svg.selectAll("g")
+			.data(data)
+			.enter().append("g")
+			.attr("class", "button");
+
+		
+		g.append("rect")			
+			.attr("width", rect_dim)
+			.attr("height", rect_dim)
+			.attr("x", function(d,i) { return i%2 * (rect_dim + barPadding);})
+			.attr("y", function(d,i) { return Math.floor(i/2) * (rect_dim + barPadding);});
+			
+			
+		g.append("text")
+			.text(function(d) { return d;})
+			.attr("x", function(d,i) { return i%2 * (rect_dim + barPadding) + rect_dim/2})
+			.attr("y", function(d,i) { return Math.floor(i/2) * (rect_dim + barPadding) + rect_dim * 0.67;});
+
+
+		
+/*		
+		var data = ['NH','VT','MA','RI','CT','DC'];
+
+		var w = 500;
+		var h = 500;
+		var barPadding = 2;
+
+
+		var svg = d3.select("body")
+					.append("svg")
+					.attr("width", w)
+					.attr("height", h);
+
+		var g = svg.append("g");
+		
+		var rect_dim = 30;
+		
+		var bar = g.selectAll("rect")
+			.data(data)
+			.enter().append("rect")			
+			.attr("width", rect_dim)
+			.attr("height", rect_dim)
+			.attr("x", function(d,i) { return i%2 * (rect_dim + barPadding);})
+			.attr("y", function(d,i) { return Math.floor(i/2) * (rect_dim + barPadding);});
+			
+			
+		g.selectAll("text")
+			.data(data)
+			.enter().append("text")
+			.text(function(d) { return d;})
+			.attr("x", function(d,i) { return i%2 * (rect_dim + barPadding) + rect_dim/2})
+			.attr("y", function(d,i) { return Math.floor(i/2) * (rect_dim + barPadding) + rect_dim * 0.67;})
+			.attr("text-anchor", "middle");
+*/
+		</script>
+	</body>
+</html>

@@ -1,0 +1,47 @@
+Goal:
+	Explanatory data visualization that communicates a clear finding or highlights relationships or patterns in a dataset.
+	- Investigate the performance of flights over time or simply look at data for a given year and create a graphic that showcases findings.
+
+Data:
+
+	Flights:
+		The data comes from RITA (Research and Technology Bureau of Transportation Statistics): http://www.transtats.bts.gov/OT_Delay/OT_DelayCause1.asp, but was downloaded from: http://www.transtats.bts.gov/OT_Delay/OT_DelayCause1.asp, 2008 data.  Note: These files have derivable variables removed, are packaged in yearly chunks and have been more heavily compressed than the originals.
+
+	Airports: 
+		Downloaded airport city, lat/long data from: http://www.openflights.org/data.html
+
+	US map:
+		JSON formatted shape data from Mike Bostock's map example: http://bl.ocks.org/mbostock/2206590/mbostock/raw/4090846/us.json
+
+
+Downloaded us shape file from https://www.census.gov/geo/maps-data/data/cbf/cbf_nation.html
+
+
+	Origin/Destination Pairs:
+		Copied from flight data and then took random sample of 10,000.
+
+	State data:
+		https://gist.githubusercontent.com/mbostock/4090846/raw/d534aba169207548a8a3d670c9c2cc719ff05c47/us-state-names.tsv
+		Needed to match state names to the id numbers in the topojson
+
+
+Steps
+
+	Download 2008 flight data
+
+References:
+Sample rows of a dataframe: http://chrisalbon.com/python/pandas_sample_dataframe.html
+(to create representative list of origin/destination pairs)
+
+Supplemental flight info: 
+http://openflights.org/html/apsearch
+
+
+
+From NOAA: http://sos.noaa.gov/Datasets/dataset.php?id=44#
+"On any given day, more than 87,000 flights are in the skies in the United States. Only one-third are commercial carriers, like American, United or Southwest. On an average day, air traffic controllers handle 28,537 commercial flights (major and regional airlines), 27,178 general aviation flights (private planes), 24,548 air taxi flights (planes for hire), 5,260 military flights and 2,148 air cargo flights (Federal Express, UPS, etc.). At any given moment, roughly 5,000 planes are in the skies above the United States. In one year, controllers handle an average of 64 million takeoffs and landings." - From the National Air Traffic Controllers Association webpage
+
+
+tooltip:
+
+http://bl.ocks.org/rveciana/5181105

@@ -1,0 +1,106 @@
+.airports {
+  fill: #000000;
+  stroke: #6cb0e0;
+  stroke-width: 0.5px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+}
+.route {
+  fill: none;
+  stroke-width: 0;
+}
+.plane {
+  stroke-width: 0;
+  pointer-events: none;
+}
+#state-borders {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 1px;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  pointer-events: none;
+}
+#states {
+  fill: lightsteelblue;/* ##aaa;*/
+}
+.background {
+  fill: none;
+  pointer-events: all;
+}
+
+.feature {
+  fill: #ccc;
+
+}
+
+.bluehead, .redhead {
+  font-family: Lato, sans-serif;
+  color:white;
+  text-align: center;
+  height:200px;
+  margin:0;
+  padding-top: 35px;
+}
+
+.bluehead h2, .redhead h2 {
+  font-weight: bold;
+  font-size: 2.2em;
+}
+
+.redhead {
+  background-color: #C0163D; /* C80A07 */
+  border-left: 3px solid white;
+  border-right: 2px solid white;
+}
+
+a {
+  color: #042C6A;
+}
+
+.bluehead {
+  background-color: #042C6A;
+  border-left: 2px solid white;
+  border-right: 3px solid white;
+}
+
+p.bigstat {
+  font-size: 1.4em;
+}
+
+/* The following are from ~ line 2776 in bootstrap.css */
+
+.btn:focus,
+.btn:active:focus,
+.btn.active:focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+.btn:hover,
+.btn:focus {
+  text-decoration: none;
+}
+.btn:active,
+.btn.active {
+  background-image: none;
+  outline: 0;
+  -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+          box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+}
+
+.btn-default {
+  border-color: #FFFFFF;
+}
+
+.btn-default:hover,
+.btn-default:focus,
+.btn-default:active,
+.btn-default.active,
+.open > .dropdown-toggle.btn-default {
+  color: #FFFFFF;
+  border-color: white;
+}
+

@@ -1,0 +1,132 @@
+
+<!DOCTYPE html>
+<html lang="en" >
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/master.css">
+    <script src="/js/jquery-2.1.4.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <title>Flight Visualization</title>
+    
+<!--<link rel="stylesheet" href="/css/v4blue.css">-->
+<style>
+
+
+
+
+</style>
+
+  </head>
+  <body>
+    <div class="header">
+      <nav class="navbar navbar-inverse">
+      </nav>
+    </div>
+    <div class="content">
+      
+      <div ></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-9">
+            <h2>US Commercial Flights - 2014</h2>
+            <p>This data comes from the <a href="http://www.transtats.bts.gov/OT_Delay/OT_DelayCause1.asp">Research and Technology Bureau of Transportation Statistics (RITA)</a> and represents arrivals and departures for 2014 Continental US commercial flights.</p>
+            
+          </div>
+        </div>
+      </div>
+      <div></div>
+      <div class="container">
+        <div class="row">       
+          <div class="col-md-9 map"  style="outline: 1px solid black">
+            <svg id='map_animation'>
+                       
+            </svg>
+            <button class="btn btn-default pull-left fixed" id = "animation_toggle">
+                    Animation Off
+                  </button> 
+
+          </div>
+          <div class="col-md-3 bluehead">
+            <h2>20,000</h2>
+              <p class="bigstat">commercial flights daily</p>
+          </div>
+          <div class="col-md-3 redhead">
+            <h2>21 %</h2>
+              <p class="bigstat">flights delayed</p>
+          </div>
+                      
+        
+          </div>
+        </div>
+
+      <div class="container">
+        <div class="row">    
+          <p>Flight delays by busiest airports.  The busiest airports are not necessarily the most delayed</p>   
+          <div class="col-md-9 map" style="outline: 1px solid black">
+            <svg id="map_volume">
+                       
+            </svg> 
+
+          </div>
+          <div class="col-md-3 bluehead">
+            <h2>XXXX</h2>
+              <p class="bigstat">commercial flights daily</p>
+          </div>
+          <div class="col-md-3 redhead">
+            <h2>XXXX</h2>
+              <p class="bigstat">flights delayed</p>
+          </div>
+                      
+        
+          </div>
+        </div>
+
+        <div class="container">
+        <div class="row">    
+          <p>Flight delays by busiest airports.  The busiest airports are not necessarily the most delayed</p>   
+          <div class="col-md-12 map" style="outline: 1px solid black">
+            <table id="table_volume">
+            </table>
+          </div>
+        
+        <!--  <div class="col-md-3 bluehead">
+            <h2>XXXX</h2>
+              <p class="bigstat">commercial flights daily</p>
+          </div>
+          <div class="col-md-3 redhead">
+            <h2>XXXX</h2>
+              <p class="bigstat">flights delayed</p>
+          </div>
+            -->          
+        
+        </div>
+        </div>
+
+
+
+
+
+    </div><!-- End content -->
+    <div class="footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-6">
+            <p>footer</p>
+          </div>
+          <div class="col-sm-6">
+          
+          </div>
+        </div>
+      </div>
+    </div>
+    
+<script src="/js/d3.min.js"></script>
+<script src="/js/queue.min.js"></script>
+<script src="/js/topojson.min.js"></script>
+<script src="/js/flightpath.js"></script>
+
+
+  </body>
+</html>

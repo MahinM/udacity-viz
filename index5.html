@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" >
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="This flight animation uses d3.js geo and SVG transition.">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/v4.css">
+    <script src="/js/jquery-2.1.4.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <title>Flight Animation - TNODA</title>
+    
+<link rel="stylesheet" href="/css/v4blue.css">
+
+<style>
+
+.background {
+  fill: none;
+  pointer-events: all;
+}
+
+#states {
+  fill: lightsteelblue;/* ##aaa;*/
+}
+
+#states .active {
+  fill: orange;
+}
+
+#state-borders {
+  fill: none;
+  stroke: #fff;
+  stroke-width: .3px;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  pointer-events: none;
+}
+
+.route {
+  fill: none;
+  stroke-width: 0;
+}
+.plane {
+  fill: #fff;
+  stroke-width: 0;
+}
+
+
+</style>
+<body>
+  <div id="map"></div>
+<script src="/js/d3.min.js"></script>
+<script src="/js/topojson.min.js"></script>
+<script src="/js/queue.min.js"></script>
+<script src="/js/flightpath.js"></script>
+</body>
