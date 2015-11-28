@@ -148,6 +148,8 @@ function loaded(error, us, airports, od,busy){
   });
   
 
+
+
   /*Shape the topojson data to include only continental US*/
   us.objects.cb_2014_us_state_20m.geometries = 
     us.objects.cb_2014_us_state_20m.geometries
@@ -192,13 +194,38 @@ function loaded(error, us, airports, od,busy){
     .attr("cx", function(d){ return projection([d.long,d.lat])[0];})
       .attr("cy", function(d){ return projection([d.long,d.lat])[1];})
       .attr("r", function(d) { return rScale(+d.Count);})
-      .attr("fill", function(d){ if (+d.Delay_Rate > 0.21)  return '#C0163D';
+      .attr("fill", function(d){ if (d.Delay_Rate > 0.21)  return '#C0163D';
                                   else return '#042C6A';})
       .attr("opacity", 0.3); 
 
       //.attr("class","airports");
 
-  
+  var columns = ['state', 'airport_name', 'Count', 'Delay_Percent'];
+
+  busy.forEach(function(d){
+              d.Count = d3.format(',')(+d.Count);
+              d.Delay_Percent = d3.format(".0%")(+d.Delay_Rate);
+  });
+
+  var table = d3.select("#table_volume");
+
+  var tbody = table.append('tbody');
+
+  var rows = tbody.selectAll("tr")
+              .data(busy)
+              .enter()
+              .append("tr");
+
+  var cells = rows.selectAll("td")
+              .data(function(row) {
+            return columns.map(function(column) {
+                return {column: column, value: row[column]};
+            });
+        })
+        .enter()
+        .append("td")
+        .attr("style", "font-family: Courier") // sets the font style
+            .html(function(d) { return d.value; });
 
       
   //AirportMap is like an associative array where the airport code are the 
