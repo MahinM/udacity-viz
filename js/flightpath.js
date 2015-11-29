@@ -19,33 +19,13 @@ var projection = d3.geo.albersUsa()
 var path = d3.geo.path()
     .projection(projection);
 
-
+/*
 d3.selectAll("svg")
               .attr("preserveAspectRatio", "xMidYMid")
               .attr("viewBox", "0 0 " + (width + margin.left + margin.right) + " " + 
                 (height + margin.top + margin.bottom));            
 ;
-
-var rScale = d3.scale.linear()
-              .range([4,20]);
-
-//delay rate
-var y = d3.scale.linear()
-    .rangeRound([height,0]);
-
-//delay length
-var x = d3.scale.linear()
-    .range([0,width]);
-
-var yAxis = d3.svg.axis()
-        .scale(y)
-        .orient("left")
-        .tickFormat(d3.format(".0%"));
-
-var xAxis = d3.svg.axis()
-        .scale(x)
-        .orient("bottom")
-        .tickFormat(d3.format(".2s"));              
+*/
 
 
 var airportMap = {};
@@ -141,7 +121,7 @@ function shuffle(array) {
 }
 
 
-function airline_delay(airline){
+function airline_delay(data){
     var margin = {top: 20, right: 20, bottom: 100, left: 150},
         width = 1000 - margin.left - margin.right,
         height = 600 - margin.top - margin.bottom;
@@ -174,16 +154,16 @@ function airline_delay(airline){
 
     color.domain(['delayed','not_delayed']);
 
-    airline.forEach(function(d){
+    data.forEach(function(d){
       var x0 = 0;
       d.flights = color.domain().map(function(name) { return {name: name, x0: x0, x1: x0 += +d[name]};});
       d.total = +d.total;
     });
 
-    airline.sort(function(a, b) { return a.total - b.total; });
+    data.sort(function(a, b) { return a.total - b.total; });
 
-    y.domain(airline.map(function(d) { return d.airline_code; }));
-    x.domain([margin.left, d3.max(airline, function(d) { return d.total; })]);
+    y.domain(data.map(function(d) { return d.airline_code; }));
+    x.domain([0, d3.max(data, function(d) { return d.total; })]);
 
     g.append("g")
       .attr("class", "yaxis axis")
@@ -198,7 +178,7 @@ function airline_delay(airline){
   svg.select(".yaxis").selectAll("text").remove();
 
   var ticks = svg.select(".yaxis").selectAll(".tick")
-                    .data(airline)
+                    .data(data)
                     .append("svg:image")
                     .attr("xlink:href", function (d) { return d.logo ; })
                     .attr("width", 100)
@@ -207,7 +187,7 @@ function airline_delay(airline){
                     .attr("y", -50);
 
   var airline_item = g.selectAll(".airline")
-      .data(airline)
+      .data(data)
     .enter().append("g")
       .attr("class", "g")
       .attr("transform", function(d) { return "translate(0," + y(d.airline_code) + ")"; });
@@ -224,65 +204,51 @@ function airline_delay(airline){
 
 }
 
+function airport_delay(data){
 
+  var margin = {top: 20, right: 20, bottom: 30, left: 40},
+    width = 1000 - margin.left - margin.right,
+    height = 600 - margin.top - margin.bottom;
 
-function loaded(error, us, airports, od,busy, airline){
-  
-  if (error) throw error;
+  var rScale = d3.scale.linear()
+                .range([4,20]);
 
-  airline_delay(airline);
+  //delay rate
+  var y = d3.scale.linear()
+      .rangeRound([height,0]);
 
-  busy.forEach(function(d){
+  //delay length
+  var x = d3.scale.linear()
+      .range([0,width]);
+
+  var yAxis = d3.svg.axis()
+          .scale(y)
+          .orient("left")
+          .tickFormat(d3.format(".0%"));
+
+  var xAxis = d3.svg.axis()
+          .scale(x)
+          .orient("bottom")
+          .tickFormat(d3.format(".2s"));              
+
+  data.forEach(function(d){
     d.ave_delay = +d.Ave_delay;
     d.delay_rate = +d.Delay_Rate;
     d.total = +d.Count;
   });
 
-  y.domain([0,d3.max(busy,function(d){return d.delay_rate;})]);
-  //y.domain(d3.extent(busy,function(d){return d.delay_rate;}));
-  x.domain([40, d3.max(busy,function(d){return d.ave_delay;})]);
-  //x.domain(d3.extent(busy,function(d){return d.ave_delay;}));
-  rScale.domain([0, d3.max(busy, function(d) { return +d.Count;})]);
+  y.domain([0,d3.max(data,function(d){return d.delay_rate;})]);
+  //y.domain(d3.extent(data,function(d){return d.delay_rate;}));
+  x.domain([40, d3.max(data,function(d){return d.ave_delay;})]);
+  //x.domain(d3.extent(data,function(d){return d.ave_delay;}));
+  rScale.domain([0, d3.max(data, function(d) { return +d.Count;})]);
 
-  
-  /*Shape the topojson data to include only continental US*/
-  us.objects.cb_2014_us_state_20m.geometries = 
-    us.objects.cb_2014_us_state_20m.geometries
-      .filter(function(d){if(["Alaska","Hawaii", "Puerto Rico"].indexOf(d.id) == -1){return d}});
-
-  var g = d3.selectAll(".map svg").append("g")
-    .style("stroke-width", "1.5px");
-
-
-  var states = g.append("g")
-    .attr("id","states")
-    .selectAll("path")
-    .data(topojson.feature(us, us.objects.cb_2014_us_state_20m).features) //array of state objects
-    .enter().append("path")
-    .attr("d", path)
-    .attr("opacity",0.8)
-    .attr("class", "feature");
-
-/*Draw state boundaries*/
-  g.append("path")
-    .datum(topojson.mesh(us, us.objects.cb_2014_us_state_20m, function(a,b) { return a !== b; }))
-    .attr("id", "state-borders")
-    .attr("d",path);
-
-
-//Draw airports
-  d3.select("#map_animation g").selectAll(".airports")
-    .data(airports)
-    .enter()
-    .append("circle")
-      .attr("cx", function(d){ return projection([d.long,d.lat])[0];})
-      .attr("cy", function(d){ return projection([d.long,d.lat])[1];})
-      .attr("r", 2) 
-      .attr("class","airports");
-
-
-/*Bubble chart*/
-var svg = d3.select("#bubble_chart");
+  /*Bubble chart*/
+var svg = d3.select("#bubble_chart")
+          .attr("preserveAspectRatio", "xMidYMid")
+          .attr("viewBox", "0 0 " + (width + margin.left + margin.right) + " " + 
+                (height + margin.top + margin.bottom));            
+              ;
  
 var g = svg.append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -311,7 +277,7 @@ var g = svg.append("g")
 
       
   airport.selectAll("circle")
-    .data(busy)
+    .data(data)
     .enter().append("circle")
     .attr("cx", function(d){ return x(d.ave_delay);})
       .attr("cy", function(d){ return y(d.delay_rate);})
@@ -323,7 +289,70 @@ var g = svg.append("g")
         return d.airport_code + ": " + d.airport_name +"\n" + d3.format(",")(d.total) + " flights per year"
                     + "\n" + d3.format(".0%")(d.delay_rate) + " delayed";
       });
-      
+
+}
+
+function draw_maps(us){
+
+  var margin = {top: 20, right: 20, bottom: 30, left: 40},
+    width = 1000 - margin.left - margin.right,
+    height = 600 - margin.top - margin.bottom;
+
+
+  var svg = d3.selectAll(".map svg")
+            .attr("preserveAspectRatio", "xMidYMid")
+            .attr("viewBox", "0 0 " + (width + margin.left + margin.right) + " " + 
+                (height + margin.top + margin.bottom));  ;
+
+  /*Shape the topojson data to include only continental US*/
+  us.objects.cb_2014_us_state_20m.geometries = 
+    us.objects.cb_2014_us_state_20m.geometries
+      .filter(function(d){if(["Alaska","Hawaii", "Puerto Rico"].indexOf(d.id) == -1){return d}});
+
+  var g = d3.selectAll(".map svg").append("g")
+    .style("stroke-width", "1.5px");
+
+
+  var states = g.append("g")
+    .attr("id","states")
+    .selectAll("path")
+    .data(topojson.feature(us, us.objects.cb_2014_us_state_20m).features) //array of state objects
+    .enter().append("path")
+    .attr("d", path)
+    .attr("opacity",0.8)
+    .attr("class", "feature");
+
+/* //Draw state boundaries
+  g.append("path")
+    .datum(topojson.mesh(us, us.objects.cb_2014_us_state_20m, function(a,b) { return a !== b; }))
+    .attr("id", "state-borders")
+    .attr("d",path);
+*/
+
+}
+
+
+function loaded(error, us, airports, od,busy, airline){
+  
+  if (error) throw error;
+
+  airline_delay(airline);
+  airport_delay(busy);
+  draw_maps(us);
+
+  
+  
+  
+
+//Draw airports
+  d3.select("#map_animation g").selectAll(".airports")
+    .data(airports)
+    .enter()
+    .append("circle")
+      .attr("cx", function(d){ return projection([d.long,d.lat])[0];})
+      .attr("cy", function(d){ return projection([d.long,d.lat])[1];})
+      .attr("r", 2) 
+      .attr("class","airports");
 
 
 
