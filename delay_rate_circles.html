@@ -25,17 +25,27 @@ body {
 <script>
 
 var margin = {top: 20, right: 20, bottom: 30, left: 60},
-    width = 960 - margin.left - margin.right,
-    height = 1000 - margin.top - margin.bottom;
+    width = 500 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
 
-var y = d3.scale.ordinal()
-        .rangeRoundBands([height,0], .1);
+//delay rate
+var y = d3.scale.linear()
+    .rangeRound([height,0]);
 
+//delay length
 var x = d3.scale.linear()
-        .rangeRound([0,width]);
+    .range([0,width]);
 
+//radius scale
+var rScale = d3.scale.linear()
+              .range([3,20]);
+
+
+
+/*
 var color = d3.scale.ordinal()
         .range(['#C0163D','#042C6A' ]);
+*/
 
 var yAxis = d3.svg.axis()
         .scale(y)
@@ -56,18 +66,18 @@ var svg = d3.select("body").append("svg")
 d3.csv("/data/busy_airports.csv", function(error, busy) {
   if (error) throw error;
 
-  color.domain(['Count_delay','Not_delayed']);
+  busy = busy.slice(0,40)
 
   busy.forEach(function(d){
-    var x0 = 0;
-    d.flights = color.domain().map(function(name) { return {name: name, x0: x0, x1: x0 += +d[name]};});
+    d.ave_delay = +d.Ave_delay;
+    d.delay_rate = +d.Delay_Rate;
     d.total = +d.Count;
   });
 
-  busy.sort(function(a, b) { return a.total - b.total; });
-
-  y.domain(busy.map(function(d) { return d.airport_code; }));
-  x.domain([0, d3.max(busy, function(d) { return d.total; })]);
+  y.domain([0,d3.max(busy,function(d){return d.delay_rate;})]);
+  x.domain([40, d3.max(busy,function(d){return d.ave_delay;})]);
+  //x.domain(d3.extent(busy,function(d){return d.ave_delay;}));
+  rScale.domain([0, d3.max(busy, function(d) { return +d.Count;})]);
 
   svg.append("g")
       .attr("class", "y axis")
@@ -78,26 +88,30 @@ d3.csv("/data/busy_airports.csv", function(error, busy) {
       .attr("class", "x axis")
       .call(xAxis)
       .attr("transform", "translate(0," + height+")");
-    /*.append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("y", 6)
-      .attr("dy", ".71em");
-*/
 
+  var airport = svg.append("g")
+                  .attr("class","g");
+/*
   var airport = svg.selectAll(".airport")
       .data(busy)
     .enter().append("g")
-      .attr("class", "g")
-      .attr("transform", function(d) { return "translate(0," + y(d.airport_code) + ")"; });
+      .attr("class", "g");
+*/
 
-  airport.selectAll("rect")
-      .data(function(d) { return d.flights; })
-    .enter().append("rect")
-      .attr("height", y.rangeBand())
-      .attr("x", function(d) { return x(d.x0); })
-      .attr("width", function(d) { return x(d.x1) - x(d.x0); })
-      .attr("opacity", "0.6")
-      .style("fill", function(d) { return color(d.name); });
+      
+  airport.selectAll("circle")
+    .data(busy)
+    .enter().append("circle")
+    .attr("cx", function(d){ return x(d.ave_delay);})
+      .attr("cy", function(d){ return y(d.delay_rate);})
+      .attr("r", function(d) { return rScale(d.total);}) 
+      .attr("class","airports")
+      .attr("fill", function(d){  if (d.delay_rate > 0.21)  return '#C0163D';
+                                  else return '#042C6A';})
+      .attr("opacity", 0.5); 
+
+
+      ;
 
   
 });

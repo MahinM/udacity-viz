@@ -1,0 +1,15 @@
+airline_code,delayed,total,not_delayed,delayed_rate,,logo
+WN,334478,1174633,840155,0.284751067,Southwest Airlines Co.,https://upload.wikimedia.org/wikipedia/commons/c/c4/Southwest_Airlines_logo_2014.svg
+DL,115991,800375,684384,0.144920818,Delta Air Lines Inc.,https://upload.wikimedia.org/wikipedia/commons/d/d1/Delta_logo.svg
+EV,155334,686021,530687,0.226427471,ExpressJet Airlines Inc.,http://vignette1.wikia.nocookie.net/logopedia/images/3/34/ExpressJet.svg
+OO,111354,613030,501676,0.18164527,SkyWest Airlines Inc.,https://upload.wikimedia.org/wikipedia/commons/6/69/SkyWest_Logo.svg
+AA,109406,537697,428291,0.203471472,American Airlines Inc.,http://vignette2.wikia.nocookie.net/logopedia/images/d/d3/American_Airlines.svg/revision/latest?cb=20100514072505
+UA,115972,493528,377556,0.234985654,United Air Lines Inc.,https://upload.wikimedia.org/wikipedia/en/e/e0/United_Airlines_Logo.svg
+US,56928,414665,357737,0.137286725,US Airways Inc.,https://upload.wikimedia.org/wikipedia/commons/a/a6/US_Airways_Logo_2011.svg
+MQ,83574,392701,309127,0.212818404,Envoy Air,https://upload.wikimedia.org/wikipedia/commons/c/cc/Envoy_air_logo.svg
+B6,49843,249693,199850,0.19961713,JetBlue Airways,https://upload.wikimedia.org/wikipedia/commons/3/3c/JetBlue_Airways_Logo.svg
+AS,16607,160257,143650,0.103627299,Alaska Airlines Inc.,https://upload.wikimedia.org/wikipedia/commons/6/67/Alaska_Airlines_Logo.svg
+F9,18320,85474,67154,0.214334183,Frontier Airlines Inc.,https://upload.wikimedia.org/wikipedia/commons/c/cc/Frontier_Airlines_Logo.svg
+FL,14299,79495,65196,0.179872948,AirTran Airways Corporation,https://upload.wikimedia.org/wikipedia/en/3/35/AirTran_Airways_logo.svg
+HA,3782,74732,70950,0.050607504,Hawaiian Airlines Inc.,http://vignette2.wikia.nocookie.net/logopedia/images/c/c2/Hawaiian_Airlines.svg
+VX,9484,57510,48026,0.16491045,Virgin America,https://upload.wikimedia.org/wikipedia/en/7/78/Vx-logo.svg

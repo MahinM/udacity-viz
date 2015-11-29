@@ -13,7 +13,16 @@
 <!--<link rel="stylesheet" href="/css/v4blue.css">-->
 <style>
 
-
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+.axis text {
+        font-family: sans-serif;
+        font-size: 13px;
+      }
 
 
 </style>
@@ -22,6 +31,7 @@
   <body>
     <div class="header">
       <nav class="navbar navbar-inverse">
+        <!--<h1>US Commercial Flights - 2014</h1>-->
       </nav>
     </div>
     <div class="content">
@@ -30,7 +40,7 @@
       <div class="container">
         <div class="row">
           <div class="col-md-9">
-            <h2>US Commercial Flights - 2014</h2>
+            <h1>US Commercial Flights - 2014</h1>
             <p>This data comes from the <a href="http://www.transtats.bts.gov/OT_Delay/OT_DelayCause1.asp">Research and Technology Bureau of Transportation Statistics (RITA)</a> and represents arrivals and departures for 2014 Continental US commercial flights.</p>
             
           </div>
@@ -43,29 +53,29 @@
             <svg id='map_animation'>
                        
             </svg>
-            <button class="btn btn-default pull-left fixed" id = "animation_toggle">
+            <button type="button" class="btn pull-left" id = "animation_toggle">
                     Animation Off
                   </button> 
 
           </div>
           <div class="col-md-3 bluehead">
-            <h2>20,000</h2>
+            <h2>20 THOUSAND</h2>
               <p class="bigstat">commercial flights daily</p>
           </div>
           <div class="col-md-3 redhead">
-            <h2>21 %</h2>
-              <p class="bigstat">flights delayed</p>
+            <h2>21 PERCENT</h2>
+              <p class="bigstat">of the flights are delayed</p>
           </div>
                       
         
           </div>
         </div>
 
-      <div class="container">
-        <div class="row">    
-          <p>Flight delays by busiest airports.  The busiest airports are not necessarily the most delayed</p>   
-          <div class="col-md-9 map" style="outline: 1px solid black">
-            <svg id="map_volume">
+      <div class="container ">
+        <div class="row-fluid">    
+          <p>RITA counts flights as delayed if the departure time is more than 15 minutes later than scheduled.  Flight delays by busiest airports.  The busiest airports are not necessarily the most delayed</p>   
+          <div class="col-md-9" style="outline: 1px solid black">
+            <svg id="bubble_chart">
                        
             </svg> 
 
@@ -76,7 +86,7 @@
           </div>
           <div class="col-md-3 redhead">
             <h2>XXXX</h2>
-              <p class="bigstat">flights delayed</p>
+              <p class="bigstat">of the flights are delayed</p>
           </div>
                       
         
@@ -85,12 +95,11 @@
 
         <div class="container">
         <div class="row">    
-          <p>Flight delays by busiest airports.  The busiest airports are not necessarily the most delayed</p>   
-          <div class="col-xs-12 map" style="outline: 1px solid black">
-            <table id="table_volume">
-              <thead><tr><th>State</th><th>Airport</th><th>Annual Flights</th><th>Delay Rate</th></tr>
-              </thead>
-            </table>
+          <p></p>   
+          <div class="col-md-9" style="outline: 1px solid black">
+            <svg id="airline">
+            </svg>
+            
           </div>
         
         <!--  <div class="col-md-3 bluehead">

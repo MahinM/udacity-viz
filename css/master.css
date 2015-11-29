@@ -26,6 +26,19 @@
 #states {
   fill: lightsteelblue;/* ##aaa;*/
 }
+
+.bubble {
+ fill-opacity: 0.5;
+  stroke: #000000;
+  stroke-width: .5px;
+}
+
+.bubble :hover {
+  stroke: #000;
+  stroke-width: 1px;
+  fill-opacity: 0.9;
+}
+
 .background {
   fill: none;
   pointer-events: all;
@@ -33,7 +46,11 @@
 
 .feature {
   fill: #ccc;
+}
 
+.pushdown {
+  margin-top: -20px;
+  margin-bottom: 20px;
 }
 
 .bluehead, .redhead {
