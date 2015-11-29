@@ -35,7 +35,7 @@
 
 .bubble :hover {
   stroke: #000;
-  stroke-width: 1px;
+  stroke-width: 2px;
   fill-opacity: 0.9;
 }
 
