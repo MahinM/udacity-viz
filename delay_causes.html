@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+body {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.bar {
+  fill: steelblue;
+}
+
+
+
+</style>
+<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+<script>
+
+var margin = {top: 20, right: 50, bottom: 30, left: 200},
+    width = 900 - margin.left - margin.right,
+    height = 900 - margin.top - margin.bottom;
+
+//delay rate
+var x = d3.scale.linear()
+    .rangeRound([0,width]);
+
+//delay length
+var y = d3.scale.ordinal()
+    .rangeRoundBands([height,0],0.1);
+
+
+var yAxis = d3.svg.axis()
+        .scale(y)
+        .orient("left");
+
+var xAxis = d3.svg.axis()
+        .scale(x)
+        .orient("bottom");
+        //.tickFormat(d3.format(".2s"));
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom);
+  
+
+d3.csv("/data/delay_reasons.csv", function(error, reasons) {
+  if (error) throw error;
+
+  reasons.forEach(function(d){
+      d.delay_mins = +d.delay_mins;
+      d.delay_proportion = +d.delay_proportion;
+  });
+
+
+  y.domain(reasons.map(function(d){ return d.delay_cause;}));
+  x.domain([0, d3.max(reasons,function(d){ return d.delay_mins;})]);
+
+  var g = svg.append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+  ;
+
+  g.append("g")
+      .attr("class", "yaxis axis")
+      .call(yAxis);
+
+  //svg.select(".yaxis").selectAll("text").remove();
+debugger;
+  //var ticks = svg.select(".yaxis").selectAll(".tick").remove();
+                /*.data(reasons)
+                .enter().append("text")
+                
+                .text("Mahin")
+                .attr("y", -10)
+                .attr("x", -10)
+;
+*/
+svg.select(".yaxis").selectAll(".tick").append("div").append("span")
+.html("Mahin");
+
+  g.append("g")
+      .attr("class", "xaxis axis")
+      .call(xAxis)
+      .attr("transform", "translate(0," + height+")");
+    //.append("text")
+    //.attr("transform", "translate(0," + height+")")
+      //.attr("y", 6)
+      //.attr("dy", ".71em")
+    //  .style("text-anchor", "middle")
+    //  .text("Frequency");
+
+g.selectAll(".bar")
+      .data(reasons)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("y", function(d) { return y(d.delay_cause); })
+      .attr("height", y.rangeBand())
+      //.attr("x", function(d) { return x(d.delay_mins); })
+      //.attr("dx", 0)
+      .attr("width", function(d) { return x(d.delay_mins); })
+      //.attr("transform", "translate(" + margin.left +",0)")
+      ;
+
+g.append("g").selectAll("text")
+  .data(reasons)
+  .enter()
+  .append("text")
+  .text(function(d) { if (d.delay_proportion < 0.001)
+                        return d3.format('.1%')(d.delay_proportion);
+                      else
+                        return d3.format('.0%')(d.delay_proportion); })
+  .attr("x", function(d){ return x(d.delay_mins) + 10;})
+  .attr("y", function(d) { return y(d.delay_cause);})
+  .attr("dy", function(d) {return y.rangeBand()/2;})
+  .attr("font-family", "sans-serif")
+  .attr("font-size", "20px")
+  .attr("fill","black")
+;
+
+
+
+
+/*
+    var bar = g.selectAll(".bar")
+              .data(reasons)
+              .enter().append("g")
+              .attr("class","g")
+              .attr("transform", function(d) { return "translate(0," + y(d.delay_cause) + ")"; });
+
+    bar.append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d.delay_mins); })
+      .attr("height", y.rangeBand())
+      .attr("width", function(d){ return x(d.delay_mins);})
+      .attr("y", function(d) { return y(d.delay_cause); });
+      */
+/*
+  g.selectAll(".bar")
+      .data(reasons)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d.delay_mins); })
+      .attr("height", y.rangeBand())
+      .attr("width", function(d){ return width-x(d.delay_mins);})
+      .attr("y", function(d) { return y(d.delay_cause); })    
+*/
+
+});
+
+
+
+</script>

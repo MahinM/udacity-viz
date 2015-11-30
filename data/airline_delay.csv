@@ -1,4 +1,4 @@
-airline_code,delayed,total,not_delayed,delayed_rate,,logo
+airline_code,Delayed,total,On time,delayed_rate,airline_name,logo
 WN,334478,1174633,840155,0.284751067,Southwest Airlines Co.,https://upload.wikimedia.org/wikipedia/commons/c/c4/Southwest_Airlines_logo_2014.svg
 DL,115991,800375,684384,0.144920818,Delta Air Lines Inc.,https://upload.wikimedia.org/wikipedia/commons/d/d1/Delta_logo.svg
 EV,155334,686021,530687,0.226427471,ExpressJet Airlines Inc.,http://vignette1.wikia.nocookie.net/logopedia/images/3/34/ExpressJet.svg

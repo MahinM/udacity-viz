@@ -1,3 +1,5 @@
+// Enables the Popovers
+$(function () { $("[data-toggle='popover']").popover({html:true}); });
 
 
 var margin = {top: 20, right: 20, bottom: 30, left: 40},
@@ -6,11 +8,6 @@ var margin = {top: 20, right: 20, bottom: 30, left: 40},
 
 var flying = false;
 
-/*var projection = d3.geo.equirectangular()
-    .scale(550)
-    .translate([width*1.6, height*1.2])
-    .precision(.1);
-*/
 var projection = d3.geo.albersUsa()
     .scale(1070)
     .translate([width / 2, height / 2]);
@@ -122,7 +119,7 @@ function shuffle(array) {
 
 
 function airline_delay(data){
-    var margin = {top: 20, right: 20, bottom: 50, left: 150},
+    var margin = {top: 20, right: 20, bottom: 40, left: 150},
         width = 1000 - margin.left - margin.right,
         height = 600 - margin.top - margin.bottom;
 
@@ -152,13 +149,30 @@ function airline_delay(data){
     var g = svg.append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    color.domain(['delayed','not_delayed']);
+    var tip = d3.tip()
+                .attr("class", "d3-tip")  
+                .offset([-10, 0])
+                    .html(function (d) { 
+                      return "<strong>" + d.airline_name + "</strong><br/>" + d.name + ": " + d3.format(',')(d.x1)
+                      + " (" + d3.format(".0%")(d.rate) + ")";          
+                    });  
+
+    g.call(tip);
+
+
+    color.domain(['Delayed','On time']);
 
     data.forEach(function(d){
       var x0 = 0;
-      d.flights = color.domain().map(function(name) { return {name: name, x0: x0, x1: x0 += +d[name]};});
+      var rate = 0;
+      d.flights = color.domain().map(function(name) { if (name=='Delayed') rate = +d.delayed_rate;
+                                                      else rate = (1- +d.delayed_rate);
+                                                      return {airline_name: d.airline_name, 
+                                                      rate: rate,
+                                                      name: name, x0: x0, x1: x0 += +d[name]};});
       d.total = +d.total;
     });
+    
 
     data.sort(function(a, b) { return a.total - b.total; });
 
@@ -199,14 +213,22 @@ function airline_delay(data){
       .attr("class", "g")
       .attr("transform", function(d) { return "translate(0," + y(d.airline_code) + ")"; });
 
-  airline_item.selectAll("rect")
+  var bar = airline_item.selectAll("rect")
       .data(function(d) { return d.flights; })
     .enter().append("rect")
       .attr("height", y.rangeBand())
       .attr("x", function(d) { return x(d.x0); })
       .attr("width", function(d) { return x(d.x1) - x(d.x0); })
       .attr("opacity", "0.7")
-      .style("fill", function(d) { return color(d.name); });
+      .style("fill", function(d) { return color(d.name); })
+      .on('mouseover', tip.show)
+      .on('mouseout', tip.hide);
+
+
+  
+  
+ 
+  
 
   var legendRectSize = 18;
   var legendSpacing = 25;
@@ -242,12 +264,13 @@ function airline_delay(data){
 
 function airport_delay(data){
 
+  data = data.slice(0,22);
   var margin = {top: 20, right: 20, bottom: 30, left: 40},
     width = 1000 - margin.left - margin.right,
     height = 600 - margin.top - margin.bottom;
 
-  var rScale = d3.scale.linear()
-                .range([4,20]);
+  var radius = d3.scale.sqrt()
+    .range([0, 25]);
 
   //delay rate
   var y = d3.scale.linear()
@@ -277,7 +300,7 @@ function airport_delay(data){
   //y.domain(d3.extent(data,function(d){return d.delay_rate;}));
   x.domain([40, d3.max(data,function(d){return d.ave_delay;})]);
   //x.domain(d3.extent(data,function(d){return d.ave_delay;}));
-  rScale.domain([0, d3.max(data, function(d) { return +d.Count;})]);
+  radius.domain([0, d3.max(data, function(d) { return +d.Count;})]);
 
   /*Bubble chart*/
 var svg = d3.select("#bubble_chart")
@@ -317,7 +340,7 @@ var g = svg.append("g")
     .enter().append("circle")
     .attr("cx", function(d){ return x(d.ave_delay);})
       .attr("cy", function(d){ return y(d.delay_rate);})
-      .attr("r", function(d) { return rScale(d.total);}) 
+      .attr("r", function(d) { return radius(d.total);}) 
       .attr("fill", function(d){  if (d.delay_rate > 0.21)  return '#C0163D';
                                   else return '#042C6A';})
       .append("title")
@@ -325,6 +348,8 @@ var g = svg.append("g")
         return d.airport_code + ": " + d.airport_name +"\n" + d3.format(",")(d.total) + " flights per year"
                     + "\n" + d3.format(".0%")(d.delay_rate) + " delayed";
       });
+
+
 
 }
 
@@ -370,7 +395,7 @@ function draw_maps(us){
 
 function draw_airports_volume(data){
 
-  
+  data = data.slice(0,25);
 
    data.forEach(function(d){
     d.ave_delay = +d.Ave_delay;
@@ -378,13 +403,31 @@ function draw_airports_volume(data){
     d.total = +d.Count;
   });
 
-   var rScale = d3.scale.linear()
-                .range([4,25]);
+  
+   var radius = d3.scale.sqrt()
+    .range([0, 25]);
 
-   rScale.domain([0, d3.max(data, function(d) { return d.total;})]);
+  radius.domain([0, d3.max(data, function(d) { return d.total;})]);
 
-  var airport = d3.select("#map_airport_volume g").append("g")
+
+
+  var g = d3.select("#map_airport_volume g");
+
+  var airport = g.append("g")
                   .attr("class","bubble");
+
+
+
+    var tip = d3.tip()
+  .attr("class", "d3-tip")  
+  .offset([-10, 0])
+      .html(function (d) { 
+        return "<strong>" + d.airport_name + "</strong><br/>" 
+                + d3.format(",")(d.total) + " flights in 2014<br/>"
+                + d3.format(".0%")(d.delay_rate) + " delayed";
+      });  
+
+    g.call(tip);
                 
   airport.selectAll(".airports")
     .data(data)
@@ -392,14 +435,19 @@ function draw_airports_volume(data){
     .append("circle")
     .attr("cx", function(d){ return projection([d.long,d.lat])[0];})
       .attr("cy", function(d){ return projection([d.long,d.lat])[1];})
-      .attr("r", function(d) { return rScale(d.total);})
+      .attr("r", function(d) { return radius(d.total);})
       .attr("fill", function(d){ if (d.delay_rate > 0.21)  return '#C0163D';
                                   else return '#042C6A';})
-      .append("title")
+      .on('mouseover', tip.show)
+      .on('mouseout', tip.hide)
+
+      /*.append("title")
       .text(function(d) {
         return d.airport_code + ": " + d.airport_name +"\n" + d3.format(",")(d.total) + " flights per year"
                     + "\n" + d3.format(".0%")(d.delay_rate) + " delayed";
-      });
+      })*/
+
+      ;
 
 
 }
@@ -466,10 +514,10 @@ function draw_legend_airline_delay(){
   var svg = d3.select("#map_airport_volume");
 
   var legendRectSize = 18;
-  var legendSpacing = 25;
+  var legendSpacing = 20;
 
-  var legend_data = [{color: "#C0163D", label: "Delayed departure"}, 
-                     {color: "#042C6A", label: "On time departure" }];
+  var legend_data = [{color: "#C0163D", label: "Higher than average delay rate"}, 
+                     {color: "#042C6A", label: "Less than average delay rate" }];
 
   var legend = svg.selectAll('.legend')
       .data(legend_data)
@@ -478,7 +526,7 @@ function draw_legend_airline_delay(){
       .attr('class', 'legend')
       .attr('transform', function(d, i) {
         var legend_height = height - (legendRectSize );
-        var horz = width-100;
+        var horz = width-170;
         var vert = legend_height - (i * (legendRectSize + legendSpacing));
         return 'translate(' + horz + ',' + vert + ')';
       });
@@ -496,9 +544,99 @@ function draw_legend_airline_delay(){
 
 }
 
+function draw_delay_reasons(data){
+
+  var margin = {top: 20, right: 50, bottom: 30, left: 200},
+    width = 1000 - margin.left - margin.right,
+    height = 600 - margin.top - margin.bottom;
+
+    //delay length
+  var x = d3.scale.linear()
+      .rangeRound([0,width]);
+
+  //delay reason
+  var y = d3.scale.ordinal()
+      .rangeRoundBands([height,0],0.1);
 
 
-function loaded(error, us, airports, od,busy, airline){
+  var yAxis = d3.svg.axis()
+          .scale(y)
+          .orient("left");
+
+  var xAxis = d3.svg.axis()
+          .scale(x)
+          .orient("bottom");
+          //.tickFormat(d3.format(".2s"));
+
+var svg = d3.select("#delay_reasons")
+          .attr("preserveAspectRatio", "xMidYMid")
+          .attr("viewBox", "0 0 " + (width + margin.left + margin.right) + " " + 
+                (height + margin.top + margin.bottom));            
+              ;
+ 
+var g = svg.append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+data.forEach(function(d){
+      d.delay_mins = +d.delay_mins;
+      d.delay_proportion = +d.delay_proportion;
+  });
+
+y.domain(data.map(function(d){ return d.delay_cause;}));
+  x.domain([0, d3.max(data,function(d){ return d.delay_mins;})]);
+
+g.append("g")
+      .attr("class", "yaxis axis")
+      .call(yAxis);
+
+g.append("g")
+      .attr("class", "xaxis axis")
+      .call(xAxis)
+      .attr("transform", "translate(0," + height+")");
+    //.append("text")
+    //.attr("transform", "translate(0," + height+")")
+      //.attr("y", 6)
+      //.attr("dy", ".71em")
+    //  .style("text-anchor", "middle")
+    //  .text("Frequency");
+
+g.selectAll(".bar")
+      .data(data)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("y", function(d) { return y(d.delay_cause); })
+      .attr("height", y.rangeBand())
+      //.attr("x", function(d) { return x(d.delay_mins); })
+      //.attr("dx", 0)
+      .attr("width", function(d) { return x(d.delay_mins); })
+      //.attr("transform", "translate(" + margin.left +",0)")
+      ;
+
+g.append("g").selectAll("text")
+  .data(data)
+  .enter()
+  .append("text")
+  .text(function(d) { if (d.delay_proportion < 0.001)
+                        return d3.format('.1%')(d.delay_proportion);
+                      else
+                        return d3.format('.0%')(d.delay_proportion); })
+  .attr("x", function(d){ return x(d.delay_mins) + 10;})
+  .attr("y", function(d) { return y(d.delay_cause);})
+  .attr("dy", function(d) {return y.rangeBand()/2;})
+  .attr("font-family", "sans-serif")
+  .attr("font-size", "16px")
+  .attr("fill","black")
+;
+
+
+
+
+
+}
+
+
+
+function loaded(error, us, airports, od,busy, airline, reasons){
   
   if (error) throw error;
 
@@ -511,6 +649,7 @@ function loaded(error, us, airports, od,busy, airline){
 
   draw_legend_animated_map();
   draw_legend_airline_delay();
+  draw_delay_reasons(reasons);
 
       
   //AirportMap is like an associative array where the airport code are the 
@@ -544,6 +683,7 @@ queue().defer(d3.json, "/data/us_continental.json")
   .defer(d3.csv, "/data/od_continental.csv")
   .defer(d3.csv, "/data/busy_airports.csv")
   .defer(d3.csv, "/data/airline_delay.csv")
+  .defer(d3.csv, "/data/delay_reasons.csv")
   .await(loaded);
 
 
