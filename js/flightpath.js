@@ -16,14 +16,6 @@ var projection = d3.geo.albersUsa()
 var path = d3.geo.path()
     .projection(projection);
 
-/*
-d3.selectAll("svg")
-              .attr("preserveAspectRatio", "xMidYMid")
-              .attr("viewBox", "0 0 " + (width + margin.left + margin.right) + " " + 
-                (height + margin.top + margin.bottom));            
-;
-*/
-
 
 var airportMap = {};
 
@@ -192,9 +184,8 @@ function airline_delay(data){
       .attr("text-anchor", "middle")  
       .attr("transform", "translate("+ (width/2) +",40)")  
             .text("Flights Per Year");
-;
 
-      ;
+
     
   svg.select(".yaxis").selectAll("text").remove();
 
@@ -223,11 +214,6 @@ function airline_delay(data){
       .style("fill", function(d) { return color(d.name); })
       .on('mouseover', tip.show)
       .on('mouseout', tip.hide);
-
-
-  
-  
- 
   
 
   var legendRectSize = 18;
@@ -440,13 +426,6 @@ function draw_airports_volume(data){
                                   else return '#042C6A';})
       .on('mouseover', tip.show)
       .on('mouseout', tip.hide)
-
-      /*.append("title")
-      .text(function(d) {
-        return d.airport_code + ": " + d.airport_name +"\n" + d3.format(",")(d.total) + " flights per year"
-                    + "\n" + d3.format(".0%")(d.delay_rate) + " delayed";
-      })*/
-
       ;
 
 
@@ -479,10 +458,7 @@ function draw_legend_animated_map(){
   var legend_data = [{color: "#C0163D", label: "Delayed departure"}, 
                      {color: "#042C6A", label: "On time departure" }];
 
-/*  var legend = svg.append("g")
-    .attr("transform", "translate(" + (width - 100) + "," + (height - 20) + ")")
-    ;
-*/
+
   var legend = svg.selectAll('.legend')
       .data(legend_data)
       .enter()
@@ -624,13 +600,7 @@ g.append("g")
             .text("Total Delay in Minutes");
 
 
-;
-    //.append("text")
-    //.attr("transform", "translate(0," + height+")")
-      //.attr("y", 6)
-      //.attr("dy", ".71em")
-    //  .style("text-anchor", "middle")
-    //  .text("Frequency");
+
 
 g.selectAll(".bar")
       .data(data)
@@ -675,6 +645,7 @@ function loaded(error, us, airports, od,busy, airline, reasons){
   draw_airports(airports);
   draw_airports_volume(busy);
   airline_delay(airline);
+  //Commenting out the airport delay bubble chart because the map chart provides the same info
   //airport_delay(busy); 
 
   draw_legend_animated_map();
