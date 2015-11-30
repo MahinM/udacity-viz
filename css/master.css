@@ -1,3 +1,16 @@
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+.axis text {
+        font-family: sans-serif;
+        /*font-size: 13px;*/
+        font-size: 1.2em;
+      }
+
+
 .airports {
   fill: #000000;
   stroke: #6cb0e0;
@@ -48,18 +61,23 @@
   fill: #ccc;
 }
 
+p {
+  font-size: 1em;
+}
+
 .pushdown {
-  margin-top: -20px;
+  margin-top: 20px;
   margin-bottom: 20px;
 }
 
 .bluehead, .redhead {
-  font-family: Lato, sans-serif;
+  font-family: sans-serif;
   color:white;
   text-align: center;
   height:200px;
   margin:0;
   padding-top: 35px;
+  opacity: 0.9;
 }
 
 .bluehead h2, .redhead h2 {
@@ -69,8 +87,18 @@
 
 .redhead {
   background-color: #C0163D; /* C80A07 */
-  border-left: 3px solid white;
-  border-right: 2px solid white;
+  border-top: 3px solid white;
+  border-bottom: 2px solid white;
+}
+
+.bluehead {
+  background-color: #042C6A;
+  border-top: 2px solid white;
+  border-bottom: 3px solid white;
+}
+
+p.bigstat {
+  font-size: 1.4em;
 }
 
 a {
@@ -136,16 +164,6 @@ a {
   left: 100%;
 }
 
-
-.bluehead {
-  background-color: #042C6A;
-  border-left: 2px solid white;
-  border-right: 3px solid white;
-}
-
-p.bigstat {
-  font-size: 1.4em;
-}
 
 /* The following are from ~ line 2776 in bootstrap.css */
 

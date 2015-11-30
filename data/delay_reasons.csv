@@ -1,6 +1,6 @@
 delay_cause,delay_mins,ave_delay_mins,delay_proportion
-Security Delay,60117,0.061867,0.000948759
+Security,60117,0.061867,0.000948759
 Extreme Weather,2918071,3.002999,0.046052639
-National Aviation System Delay,10619664,10.92874,0.167598237
-Air Carrier Delay,20637692,21.238333,0.325701528
+National Aviation System,10619664,10.92874,0.167598237
+Air Carrier,20637692,21.238333,0.325701528
 Aircraft Arriving Late,29128273,29.976025,0.459698837

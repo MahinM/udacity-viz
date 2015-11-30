@@ -56,7 +56,7 @@ var svg = d3.select("body").append("svg")
 d3.csv("/data/airline_delay.csv", function(error, airline) {
   if (error) throw error;
 
-  color.domain(['delayed','not_delayed']);
+  color.domain(['Delayed','On time']);
 
   airline.forEach(function(d){
     var x0 = 0;

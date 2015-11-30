@@ -21,7 +21,8 @@
 }
 .axis text {
         font-family: sans-serif;
-        font-size: 13px;
+        /*font-size: 13px;*/
+        font-size: 1.2em;
       }
 
 
@@ -64,7 +65,7 @@
           </div>
           
           <div class="col-md-3 bluehead">
-            <h2>16,000</h2>
+            <h2>16 thousand</h2>
               <p class="bigstat">commercial flights daily</p>
           </div>
           <div class="col-md-3 redhead">
@@ -77,23 +78,35 @@
 
 
 
+     <div class="container pushdown">
+        <div class="row-fluid">        
+          <h3>Delay Causes
+              <span data-container="body" data-toggle="popover" data-placement="right" data-html="true" data-trigger="hover" data-content="Multiple causes may be assigned to a single delayed flight.  When multiple causes are assigned to one delayed flight, each cause is prorated based on the number of delayed minutes for which it is responsible"><span class="glyphicon glyphicon-info-sign"></span></span> 
+          </h3> 
+          <div class="col-md-9"> 
+              <p>Flights are counted as delayed on departure if the actual departure time is at least <em><b>15 minutes later</b></em> than the scheduled departure time.</p>
+              <p>
+                <ul>
+                <li><strong>Aircraft Arriving Late:</strong> A previous flight with same aircraft arrived late, causing the present flight to depart late.
+                </li>
+                <li><strong>National Aviation System:</strong> Delays and cancellations attributable to the national aviation system that refer to a broad set of conditions, such as non-extreme weather conditions, airport operations, heavy traffic volume, and air traffic control.
+                </li>                
+                <li><strong>Air Carrier:</strong>The cause of the cancellation or delay was due to circumstances within the airline's control (e.g. maintenance or crew problems, aircraft cleaning, baggage loading, fueling, etc.).
+                </li>
+                <li><strong>Extreme Weather:</strong> Significant meteorological conditions (actual or forecasted) that, in the judgment of the carrier, delays or prevents the operation of a flight such as tornado, blizzard or hurricane.
+                </li>                
+                <li><strong>Security:</strong> Delays or cancellations caused by evacuation of a terminal or concourse, re-boarding of aircraft because of security breach, inoperative screening equipment and/or long lines in excess of 29 minutes at screening areas.
+              </li>
+              </ul>
+              </p>
+              <p>Source:<a href=http://www.rita.dot.gov/bts/help/aviation/html/understanding.html>http://www.rita.dot.gov/bts/help/aviation/html/understanding.html</a>
 
-    <div class="container">
-        <div class="row-fluid">
-          <div class="col-md-9">
-            <br/><br/>   
-              <p>Flights are counted as delayed on departure if the actual departure time is at least <em>15 minutes later</em> than the scheduled departure time.</p>
-              <p>XXX RITA tracks by delay minutes allocated to each cause</p>
+                
+
+
+              </p>
               
           </div>
-          <div class="col-md-3">&nbsp;
-          </div>
-        </div>
-    </div>
-
-     <div class="container">
-        <div class="row-fluid">
-          <h3>Delay Causes</h3> 
           <div class="col-md-9" style="outline: 1px solid black">
             <svg id="delay_reasons">
                        
@@ -107,18 +120,20 @@
           </div>
           
           <div class="col-md-3 redhead">
-            <h2>XXXX minutes</h2>
-              <p class="bigstat">delay in 2014</p>
+            <h2>69 million</h2>
+              <p class="bigstat">minutes of delay in 2014</p>
           </div>
           
         </div>
       </div><!-- container -->
 
 
-    <div class="container">
-        <div class="row-fluid"> 
-          <div class="col-md-9">
-              <br/><br/>   
+    <div class="container pushdown">
+        <div class="row-fluid">           
+              <h3>Flight Volume and Delay by Hub
+              <span data-container="body" data-toggle="popover" data-placement="right" data-html="true" data-trigger="hover" data-content="A hub is a high-traffic airport that may be used as a transfer point to a customer's final destination"><span class="glyphicon glyphicon-info-sign"></span></span>
+              </h3>   
+          <div class="col-md-9">               
               <p>This chart represents the 50 busiest airports by flight volume.  These airports are considered airline hubs, meaning that these airports may be used as transfer points to the passengers' intended destinations.</p>
               <p>In this visualization, the <font color="#042C6A"><strong>blue</strong></font> circles represent airports with a delay rate below average and the <font color="#C0163D"><strong>red</strong></font> circles represent airports with a delay rate greater than average.  The size of the circles is proportional to the 2014 flight volume at each airport.</p>
                 
@@ -130,12 +145,7 @@
 
 
     <div class="container">
-      <div class="row-fluid">
-          <h3>Flight Volume and Delay by
-              <span data-container="body" data-toggle="popover" data-placement="right" data-html="true" data-trigger="hover" data-content="A hub is a high-traffic airport that may be used as a transfer point to a customer's final destination">Hub <span class="glyphicon glyphicon-info-sign"></span></span>
-          </h3>        
-
-
+      <div class="row-fluid">            
           <div class="col-md-9 map" style="outline: 2px solid black">
             <svg id="map_airport_volume">
                        
@@ -156,18 +166,9 @@
 
 
 
-      <div class="container ">
-        <div class="row-fluid"> 
-                  <div class="col-md-9">
-                      <br/>   
-                      <p>Bubble chart</p>                        
-                    </div>
-                    <div class="col-md-3">&nbsp;
-                    </div>
-              </div>
-      </div>
-      <div class="container ">
 
+<!--
+      <div class="container ">
         <div class="row-fluid">   
          <h3>Flight Volume and Delay by Hub</h3> 
           <div class="col-md-9" style="outline: 1px solid black">
@@ -176,7 +177,7 @@
             </svg> 
 
           </div>
-          <!--
+          
           <div class="col-md-3 bluehead">
             
               <p class="bigstat">Atlanta International Airport is the busiest in the United States</p>
@@ -185,7 +186,7 @@
             <h2>XXXX</h2>
               <p class="bigstat">of the flights are delayed</p>
           </div>
-          -->
+          
           </div>
         </div>
       
@@ -198,27 +199,37 @@
           </div>
         </div>
       </div>
+  -->
 
+
+
+      <div class="container pushdown">
+        <div class="row-fluid"> 
+           <h3>Flight Volume and Delay by Airline</h3> 
+                  <div class="col-md-9">   
+                    There are 14 unique carriers represented in the 2014 flight data.                                                          
+                    </div>
+                    <div class="col-md-3">&nbsp;
+                    </div>
+              </div>
+      </div>
 
 
       <div class="container">
         <div class="row-fluid">    
-          <h3>Flight Delay by Airline</h3>   
+         
           <div class="col-md-9"  style="outline: 2px solid black">
             <svg id="airline">
             </svg>
-            <br/><br/>
           </div>
         
-        <!--  <div class="col-md-3 bluehead">
-            <h2>XXXX</h2>
-              <p class="bigstat">commercial flights daily</p>
+        <div class="col-md-3 bluehead">
+              <p class="bigstat">Southwest <sup>&reg;</sup> has the greatest number of flights</p>
           </div>
           <div class="col-md-3 redhead">
-            <h2>XXXX</h2>
-              <p class="bigstat">flights delayed</p>
+            <h2>28%</h2>
+              <p class="bigstat">Southwest <sup>&reg;</sup> has the highest rate of delayed flights</p>
           </div>
-            -->          
         
         </div>
         </div>

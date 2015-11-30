@@ -1,121 +1,253 @@
+
 <!DOCTYPE html>
-<meta charset="utf-8">
-<style>
+<html lang="en" >
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/master.css">
+    <script src="/js/jquery-2.1.4.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <title>Flight Visualization</title>
+    
+<!--Header 
+This is where I'd include navigation, but at the moment, this is just used as a top black bar -->
 
-.background {
-  fill: none;
-  pointer-events: all;
-}
+  </head>
+  <body>
+    <div class="header">
+      <nav class="navbar navbar-inverse">
+      </nav>
+    </div>
+    
+    <div class="content">
 
-#states {
-  fill: #aaa;
-}
+<!--Introduction -->
 
-#states .active {
-  fill: orange;
-}
+      <div class="container">
+        <div class="row">
+          <div class="col-md-9">
+            <h1>US Commercial Flights - 2014</h1>
+            <p>The <a href="http://www.transtats.bts.gov/OT_Delay/OT_DelayCause1.asp">Research and Technology Bureau of Transportation Statistics (RITA) </a>tracks commercial airline flight summary information.  These visualizations
+            represent arrivals and departures of 2014 commercial flights with origin and destination in the continental United States.</p>
+            
+          </div>
+          <div class="col-md-3">&nbsp;
+          </div>
+        </div>
+      </div>
 
-#state-borders {
-  fill: none;
-  stroke: #fff;
-  stroke-width: 1.5px;
-  stroke-linejoin: round;
-  stroke-linecap: round;
-  pointer-events: none;
-}
+<!--Flight animation-->
+      <div class="container">
+        <div class="row-fluid">
+          <h3>Flight Animation</h3>   
+          <div class="col-md-9 map"  style="outline: 2px solid black">
 
-</style>
-<body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/1.6.19/topojson.min.js"></script>
-<script>
+            <svg id='map_animation'>                       
+            </svg>
+            <button type="button" class="btn pull-left" id = "animation_toggle">
+                    Animation Off
+                  </button>
 
-var width = 960,
-    height = 500,
-    centered;
+          </div>
+          
+          <div class="col-md-3 bluehead">
+            <h2>16 thousand</h2>
+              <p class="bigstat">commercial flights daily</p>
+          </div>
+          <div class="col-md-3 redhead">
+            <h2>21 %</h2>
+              <p class="bigstat">of the flights are delayed</p>
+          </div>
+          
+          </div>
+    </div>
 
-var projection = d3.geo.albersUsa()
-    .scale(1070)
-    .translate([width / 2, height / 2]);
+<!--Delay reasons-->
 
-var path = d3.geo.path()
-    .projection(projection);
+     <div class="container pushdown">
+        <div class="row-fluid">    
+        <!--Glyphicon to explain how delay minutes are allocated-->
+          <h3>Delay Causes
+              <span data-container="body" data-toggle="popover" data-placement="right" data-html="true" data-trigger="hover" data-content="Multiple causes may be assigned to a single delayed flight.  When multiple causes are assigned to one delayed flight, each cause is prorated based on the number of delayed minutes for which it is responsible"><span class="glyphicon glyphicon-info-sign"></span></span> 
+          </h3> 
+          <div class="col-md-9"> 
+              <p>Flights are counted as delayed on departure if the actual departure time is at least <em><b>15 minutes later</b></em> than the scheduled departure time.</p>
+              <p>
+                <ul>
+                <li><strong>Aircraft Arriving Late:</strong> A previous flight with same aircraft arrived late, causing the present flight to depart late.
+                </li>
+                <li><strong>National Aviation System:</strong> Delays and cancellations attributable to the national aviation system that refer to a broad set of conditions, such as non-extreme weather conditions, airport operations, heavy traffic volume, and air traffic control.
+                </li>                
+                <li><strong>Air Carrier:</strong>The cause of the cancellation or delay was due to circumstances within the airline's control (e.g. maintenance or crew problems, aircraft cleaning, baggage loading, fueling, etc.).
+                </li>
+                <li><strong>Extreme Weather:</strong> Significant meteorological conditions (actual or forecasted) that, in the judgment of the carrier, delays or prevents the operation of a flight such as tornado, blizzard or hurricane.
+                </li>                
+                <li><strong>Security:</strong> Delays or cancellations caused by evacuation of a terminal or concourse, re-boarding of aircraft because of security breach, inoperative screening equipment and/or long lines in excess of 29 minutes at screening areas.
+              </li>
+              </ul>
+              </p>
+              <p>Source:<a href=http://www.rita.dot.gov/bts/help/aviation/html/understanding.html>http://www.rita.dot.gov/bts/help/aviation/html/understanding.html</a>
+              </p>
+              
+          </div>
+          <div class="col-md-9" style="outline: 1px solid black">
+            <svg id="delay_reasons">
+                       
+            </svg> 
 
-var svg = d3.select("body").append("svg")
-    .attr("width", width)
-    .attr("height", height);
+          </div>
+          
+          <div class="col-md-3 bluehead">
+            
+              <p class="bigstat">Security delays are very infrequent</p>
+          </div>
+          
+          <div class="col-md-3 redhead">
+            <h2>69 million</h2>
+              <p class="bigstat">minutes of delay in 2014</p>
+          </div>
+          
+        </div>
+      </div><!-- container -->
 
-svg.append("rect")
-    .attr("class", "background")
-    .attr("width", width)
-    .attr("height", height)
-    .on("click", clicked);
-
-var g = svg.append("g");
-
-d3.json("/data/us.json", function(error, us) {
-  if (error) throw error;
-
-  g.append("g")
-      .attr("id", "states")
-    .selectAll("path")
-      .data(topojson.feature(us, us.objects.states).features)
-    .enter().append("path")
-      .attr("d", path)
-      .on("click", clicked);
-
-  g.append("path")
-      .datum(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; }))
-      .attr("id", "state-borders")
-      .attr("d", path);
-
-
-});
-
-d3.csv("/data/airports.csv", function(error, airports){
-  if (error) throw error;
-
-  svg.selectAll("circles.points")
-  .data(airports)
-  .enter()
-  .append("circle")
-  .attr("r",5)
-  .attr("transform", function(d){ return "translate(" + projection([d.long,d.lat]) + ")";});});
-
-
-
-
-
-function clicked(d) {
-  var x, y, k;
-  if (d && centered !== d) {
-    var centroid = path.centroid(d);
-    x = centroid[0];
-    y = centroid[1];
-    k = 2;
-    centered = d;
-  } else {
-    x = width / 2;
-    y = height / 2;
-    k = 1;
-    centered = null;
-  }
-
-  g.selectAll("path")
-      .classed("active", centered && function(d) { return d === centered; });
-
-  g.transition()
-      .duration(750)
-      .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
-      .style("stroke-width", 1.5 / k + "px");
-
-  d3.selectAll("circle")
-    .transition()
-    .duration(3000)
-    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")");
-
-}
+<!-- Flight Volume and Delay -->
+    <div class="container pushdown">
+        <div class="row-fluid"> 
+              <!--Glyphicon to define hub-->          
+              <h3>Flight Volume and Delay by Hub
+              <span data-container="body" data-toggle="popover" data-placement="right" data-html="true" data-trigger="hover" data-content="A hub is a high-traffic airport that may be used as a transfer point to a customer's final destination"><span class="glyphicon glyphicon-info-sign"></span></span>
+              </h3>   
+          <div class="col-md-9">               
+              <p>This chart represents the 50 busiest airports by flight volume.  These airports are considered airline hubs, meaning that these airports may be used as transfer points to the passengers' intended destinations.</p>
+              <p>In this visualization, the <font color="#042C6A"><strong>blue</strong></font> circles represent airports with a delay rate below average and the <font color="#C0163D"><strong>red</strong></font> circles represent airports with a delay rate greater than average.  The size of the circles is proportional to the 2014 flight volume at each airport.</p>
+                
+            </div>
+            <div class="col-md-3">&nbsp;
+            </div>
+      </div>
+    </div>
 
 
+    <div class="container">
+      <div class="row-fluid">            
+          <div class="col-md-9 map" style="outline: 2px solid black">
+            <svg id="map_airport_volume">
+                       
+            </svg> 
 
-</script>
+          </div>
+           <div class="col-md-3 bluehead">
+            <!--<h2>Atlanta International Airport</h2>-->
+              <p class="bigstat">Atlanta International Airport is the busiest in the country</p>
+          </div>
+          <div class="col-md-3 redhead">
+            <!--<h2>XXXX</h2>-->
+              <p class="bigstat">Chicago Midway has the worst delay rate of the hubs: 31%</p>
+          </div>       
+        
+          </div>
+        </div>
+
+
+
+
+
+<!--Flight Volume and Delay Bubble Chart
+Commented out because I prefer map version.  Discussed in README-->
+<!--
+      <div class="container ">
+        <div class="row-fluid">   
+         <h3>Flight Volume and Delay by Hub</h3> 
+          <div class="col-md-9" style="outline: 1px solid black">
+            <svg id="bubble_chart">
+                       
+            </svg> 
+
+          </div>
+          
+          <div class="col-md-3 bluehead">
+            
+              <p class="bigstat">Atlanta International Airport is the busiest in the United States</p>
+          </div>
+          <div class="col-md-3 redhead">
+            <h2>XXXX</h2>
+              <p class="bigstat">of the flights are delayed</p>
+          </div>
+          
+          </div>
+        </div>
+      
+      <div class="container">
+        <div class="row">
+          <div class="col-md-9">
+            <br/>   
+              <p>XXXX Text about flight delays by airline</p>
+              
+          </div>
+        </div>
+      </div>
+  -->
+
+
+<!--Flight delay and volume by airline-->
+      <div class="container pushdown">
+        <div class="row-fluid"> 
+           <h3>Flight Volume and Delay by Airline</h3> 
+                  <div class="col-md-9">   
+                    There are 14 unique carriers represented in the 2014 flight data.                                                          
+                    </div>
+                    <div class="col-md-3">&nbsp;
+                    </div>
+              </div>
+      </div>
+
+
+      <div class="container">
+        <div class="row-fluid">    
+         
+          <div class="col-md-9"  style="outline: 2px solid black">
+            <svg id="airline">
+            </svg>
+          </div>
+        
+        <div class="col-md-3 bluehead">
+              <p class="bigstat">Southwest <sup>&reg;</sup> has the greatest number of flights</p>
+          </div>
+          <div class="col-md-3 redhead">
+            <h2>28%</h2>
+              <p class="bigstat">Southwest <sup>&reg;</sup> has the highest rate of delayed flights</p>
+          </div>
+        
+        </div>
+        </div>
+
+  </div> <!--End content -->
+
+
+
+<!--Footer
+Just for black bar at the bottom.  Probably a better way to do this-->
+    <div class="footer pushdown">
+      <nav class="navbar navbar-inverse">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-6">
+            <p>&nbsp;</p>
+          </div>
+          <div class="col-sm-6">
+          
+          </div>
+        </div>
+      </div>
+    </div>
+    
+<script src="/js/d3.min.js"></script>
+<script src="/js/queue.min.js"></script>
+<script src="/js/topojson.min.js"></script>
+<script src="/js/tip.js"></script>
+<script src="/js/flightpath.js"></script>
+
+
+  </body>
+</html>
