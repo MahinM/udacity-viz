@@ -18,7 +18,7 @@ In my mind, the flights tell a story that is entwined with geography, so I reall
 I first represented a sample of all the United States data including Alaska, Hawaii, Virgin Islands, and Puerto Rico.  Animation showed flight movement and visually communicated flight volume, but had no additional analytic value.
 
 <figure>
-  <img src="img/flight_animation.png" alt="Animation - v1" height="50%">
+  <img src="img/flight_animation.png" alt="Animation - v1"/>
   <figcaption>Fig1. - Animation - including non-continguous states and territories</figcaption>
 </figure>
 
@@ -28,7 +28,7 @@ Also, at this point, I made the decision to focus only on the
 Focused only on continental US.
 
 <figure>
-    <img src="img/flight_animation_v2.png" alt="Animation - v2" height="50%">
+    <img src="img/flight_animation_v2.png" alt="Animation - v2" />
     <figcaption>Fig2. - Animation - Continental US with on time and delayed flights differentiated
     </figcaption>
 </figure>
@@ -37,7 +37,7 @@ Focused only on continental US.
 #### Airport Delay - Two Versions
 I went back and forth on this plot.  I actually started with the map,but couldn't initially figure out how to usefully differentiate the overlapping bubbles.  The overlap was especially problematic in the New York City region, as there are three major airports: Laguardia, JFK, and Newark within close proximity.  I came up with the bubble chart as a way to visually encode several different pieces of information at the same time: delay rate, average delay length, airport traffic.  However, if the x-axis begins at 0, all the data is concentrated on the right side of the graph.
 <figure>
-    <img src='img/hub_delay_bubble.png'alt="Airport Delay - Bubble" height="50%"/>
+    <img src='img/hub_delay_bubble.png'alt="Airport Delay - Bubble"/>
         <figcaption>Fig3. Airport Volume Bubble Plot
         </figcaption>
      </img>
