@@ -66,6 +66,12 @@ I think that I prefer this version - now that I figured out how to set the opaci
 
 Added a chart visualizing delay reasons based on feedback from user: "Why don't you explain why the flights are delayed?"
 
+<figure>
+  <img src="img/delay_cause.png" alt="Animation - v1"/>
+  <figcaption>Fig5 - Delay Reasons</figcaption>
+</figure>
+
+
 #### Additional Notes
 
 The visualization is responsive, so it scales appropriately to mobile devices.
