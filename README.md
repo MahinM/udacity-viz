@@ -11,7 +11,9 @@ I was most struck by the sheer volume of flight.  I learned that this data on co
 
 >"At any given moment, roughly 5,000 planes are in the skies above the United States" <br/> - From NOAA: http://sos.noaa.gov/Datasets/dataset.php?id=44#
 
-In my mind, the flights tell a story that is entwined with geography, so I really wanted to incorporate map data with the flight data. 
+In my mind, the flights tell a story that is entwined with geography, so I really wanted to incorporate map data with the flight data. I combined the airline codes with latitude and longitude information which I then plotted on a map (see us_map_initial.html).  Next, I wanted to combine the geography with the sheer busyness of the skies, so I researched options for animating the flight paths (see: ./v1/first_animation.html).  I went down the path of making the states zoomable and clickable, thinking that the visualization might interact with the data on a state level, but that idea seemed to lend itself more to an exploratory visualization than an explanatory story.
+
+All of my reviewers seemed to enjoy watching the animated flights across the US map, but through the feedback process, I realized that the animation was lacking in depth in terms of analytic value.  Therefore, I followed the suggestion of one of my reviewers and created a story around flight delays in combination with the animation and the geography.  
 
     
 #### Animation - Initial Version   
@@ -22,10 +24,17 @@ I first represented a sample of all the United States data including Alaska, Haw
   <figcaption>Fig1. - Animation - including non-continguous states and territories</figcaption>
 </figure>
 
+<figure>
+  <img src="img/flight_animation_zoomed.png" alt="Animation - v1"/>
+  <figcaption>Fig1.1 - Version 1 zoomed in on state </figcaption>
+</figure>
+
+
+
 #### Animation - Revised
 Based on feedback recieved, I revised the animated flights with color coding in order to indicate the flights that are delayed on departure.  Also used callout boxes to highlight the numbers.
-Also, at this point, I made the decision to focus only on the 
-Focused only on continental US.
+At this point, I made the decision to focus only on the continental US because animating flights in the mercator projection from Alaska or Hawaii to the contiguous states was too difficult.  Flights would appear to fly off the map.  
+The equirectangular projection was more realistic, but the acurately large size of Alaska seemed like a distraction.
 
 <figure>
     <img src="img/flight_animation_v2.png" alt="Animation - v2" />
@@ -61,8 +70,7 @@ Added a chart visualizing delay reasons based on feedback from user: "Why don't 
 
 The visualization is responsive, so it scales appropriately to mobile devices.
 
-I used glyphicon info buttons to provide additional details and definitions.  I wanted to figure out how to incorporate the glyphicons into the axis labels for the delay reasons, but couldn't figure that out.
-
+I used glyphicon info buttons to provide additional details and definitions.  
 
 
 ## Feedback
@@ -109,3 +117,13 @@ I used glyphicon info buttons to provide additional details and definitions.  I 
 * Barchart reference: http://bost.ocks.org/mike/bar/3/
 * Tooltips: http://bl.ocks.org/Caged/6476579
 * RITA delay categories: http://www.rita.dot.gov/bts/help/aviation/html/understanding.html
+
+**Visualization Iterations**
+**all files in repo root.
+* index.html is the final version
+* us_map_initial.html is the first attempt at showing airports on a map
+* airplane_with_flight_path.html is the first attempt at an svg airplane and flight path
+* airport_delay_rate_circles.html is a bubble chart plot of the airport volume and delay rate
+* airport_delay_rate_bars.html is a bar chart attempt at showing airport volume and delay rate
+* delay_causes.html is a first attempt at showing the causes of delay 
+* us_map_continental is a us map of the 50 contiguous states

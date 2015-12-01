@@ -250,7 +250,7 @@ function airline_delay(data){
 
 function airport_delay(data){
 
-  data = data.slice(0,22);
+  data = data.slice(0,25);
   var margin = {top: 20, right: 20, bottom: 30, left: 40},
     width = 1000 - margin.left - margin.right,
     height = 600 - margin.top - margin.bottom;
