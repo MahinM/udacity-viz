@@ -547,7 +547,7 @@ circle_legend.append("text")
 
 function draw_delay_reasons(data){
 
-  var margin = {top: 20, right: 75, bottom: 50, left: 170},
+  var margin = {top: 20, right: 75, bottom: 50, left: 200},
     width = 1000 - margin.left - margin.right,
     height = 600 - margin.top - margin.bottom;
 
