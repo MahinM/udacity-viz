@@ -679,12 +679,12 @@ function loaded(error, us, airports, od,busy, airline, reasons){
 }
 
 
-queue().defer(d3.json, "/data/us_continental.json")
-  .defer(d3.csv, "/data/airports_continental.csv")
-  .defer(d3.csv, "/data/od_continental.csv")
-  .defer(d3.csv, "/data/busy_airports.csv")
-  .defer(d3.csv, "/data/airline_delay.csv")
-  .defer(d3.csv, "/data/delay_reasons.csv")
+queue().defer(d3.json, "data/us_continental.json")
+  .defer(d3.csv, "data/airports_continental.csv")
+  .defer(d3.csv, "data/od_continental.csv")
+  .defer(d3.csv, "data/busy_airports.csv")
+  .defer(d3.csv, "data/airline_delay.csv")
+  .defer(d3.csv, "data/delay_reasons.csv")
   .await(loaded);
 
 
